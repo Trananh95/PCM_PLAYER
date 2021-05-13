@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Opus to PCM</title>
+</head>
+<body>datad play audio if everying went well!</h2>
+    <p>However, the AudioContext may not allow starting the playing without a user gesture. Click this text to instruct the disobedient browser you really want to listen to the audio!</p>
+</div>
+<script>
+ window.onload = function() {
+   var socketURL = 'ws://localhost:8180';
+   var player = new PCMPlayer({
+        encoding: '16bitInt',
+        channels: 2,
+        sampleRate: 8000,
+        flushingTime: 80
+   });
+   player.volume = 10;
+
+   var ws = new WebSocket(socketURL);
+       ws.binaryType = 'arraybuffer';
+       ws.addEventListener('message',function(event) {
+            var data = new Uint8Array(event.data);
+            console.log(data);
+            player.feed(data);
+       });
+ }   
+</script>
+<script type="text/javascript" src="../pcm-player.min.js"></script>
+</body>
+</html>
